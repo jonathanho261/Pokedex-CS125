@@ -24,7 +24,6 @@
         android:layout_marginRight="16dp"
         android:hint="@string/search_hint"
         android:textAlignment="center"
-        android:textStyle="italic"
         android:inputType="text"
         android:background="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
