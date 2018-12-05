@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 import android.view.View;
@@ -26,14 +27,19 @@ public class MainActivity extends AppCompatActivity {
     /** Request queue for our network requests. */
     private static RequestQueue requestQueue;
 
+    /** String to store api information*/
+    private String apiCall = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        requestQueue = Volley.newRequestQueue(this);
+
         Button button_search = findViewById(R.id.button_search);
         Button button_lucky = findViewById(R.id.button_lucky);
+        final EditText editText = findViewById(R.id.editText);
 
         button_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
                 // When we have the info from the API, pass it to the next activity
                 // If it's null, pop up a toast that says that there is nothing there?
                 // If we implement search by pokemon or number, have to tell whether the text is a string or an int
+                String searchText = editText.getText().toString();
+                startAPICall(searchText);
+                Log.d(TAG, apiCall);
                 Intent search = new Intent(v.getContext(), PokemonActivity.class);
                 startActivity(search);
             }
@@ -64,12 +73,13 @@ public class MainActivity extends AppCompatActivity {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://pokeapi.co/api/v2/pokemon/" + str,
+                    "https://pokeapi.co/api/v2/pokemon/" + str + "/",
                     null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(final JSONObject response) {
                             Log.d(TAG, response.toString());
+                            apiCall = response.toString();
                         }
                     }, new Response.ErrorListener() {
                 @Override
