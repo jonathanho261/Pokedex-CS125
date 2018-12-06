@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 String searchText = editText.getText().toString();
                 startAPICall(searchText);
                 Log.d(TAG, apiCall);
-                Intent search = new Intent(v.getContext(), PokemonActivity.class);
-                startActivity(search);
             }
         });
 
@@ -78,8 +76,9 @@ public class MainActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(final JSONObject response) {
-                            Log.d(TAG, response.toString());
-                            apiCall = response.toString();
+                            Intent search = new Intent(getBaseContext(), PokemonActivity.class);
+                            search.putExtra("info", response.toString());
+                            startActivity(search);
                         }
                     }, new Response.ErrorListener() {
                 @Override
