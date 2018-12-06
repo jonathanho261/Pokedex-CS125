@@ -125,6 +125,7 @@
                 android:layout_height="wrap_content"
                 android:text="Weight:"/>
             <TextView
+                android:id="@+id/weight"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"

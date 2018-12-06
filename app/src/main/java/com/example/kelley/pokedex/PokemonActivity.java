@@ -20,14 +20,15 @@ public class PokemonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon);
 
-        TextView name = findViewById(R.id.tv_name);
+        TextView name = findViewById(R.id.weight);
+
 
         Intent intent = getIntent();
         String info = intent.getStringExtra("info");
 
         try {
             JSONObject infoJSON = new JSONObject(info);
-            name.setText(Integer.toString(infoJSON.getInt("weight")));
+            name.setText(Double.toString(infoJSON.getInt("weight") * 0.1) + " kg");
         } catch (JSONException e) {
             e.printStackTrace();
         }
