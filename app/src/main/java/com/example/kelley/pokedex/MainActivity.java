@@ -47,7 +47,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String searchText = editText.getText().toString().toLowerCase();
-                startAPICall(searchText);
+                if (searchText.trim().length() == 0) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Please enter something.",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    startAPICall(searchText);
+                }
             }
         });
 
