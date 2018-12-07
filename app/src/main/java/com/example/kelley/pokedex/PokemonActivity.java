@@ -1,38 +1,23 @@
 package com.example.kelley.pokedex;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.textservice.TextInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PokemonActivity extends AppCompatActivity {
-
-    // TODO: add layout
-    // TODO: Change title of page to name of pokemon?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +112,6 @@ public class PokemonActivity extends AppCompatActivity {
         URL myFileUrl = null;
         Bitmap bmImg = null;
         protected Bitmap doInBackground(String... args) {
-            Log.d("no error", "testing");
             try {
                 myFileUrl = new URL(args[0]);
                 HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();

@@ -46,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
         button_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // When we have the info from the API, pass it to the next activity
-                // If it's null, pop up a toast that says that there is nothing there?
-                // If we implement search by pokemon or number, have to tell whether the text is a string or an int
                 String searchText = editText.getText().toString().toLowerCase();
                 startAPICall(searchText);
             }
