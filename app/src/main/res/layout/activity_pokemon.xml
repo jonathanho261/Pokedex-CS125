@@ -25,7 +25,7 @@
             android:id="@+id/tv_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginRight="20dp"
             android:text="12"
             android:textSize="30sp" />
@@ -89,8 +89,8 @@
                 android:layout_marginRight="4dp"
                 android:background="@color/bug"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:padding="4dp"
-                android:text="Bug"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
         </LinearLayout>
