@@ -1,6 +1,8 @@
 package com.example.kelley.pokedex;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 // If we implement search by pokemon or number, have to tell whether the text is a string or an int
                 String searchText = editText.getText().toString().toLowerCase();
                 startAPICall(searchText);
-                Log.d(TAG, apiCall);
             }
         });
 
@@ -57,11 +58,8 @@ public class MainActivity extends AppCompatActivity {
             // If we use lucky, we should generate a random number and use a search by number function
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "This feature hasn't been implemented yet!",
-                        Toast.LENGTH_SHORT);
-
-                toast.show();
+                int randomPokemon = (int) (Math.random()* 721 + 1);
+                startAPICall(randomPokemon + "");
             }
         });
 
@@ -83,7 +81,16 @@ public class MainActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
-                    Log.w(TAG, error.toString());
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    alertDialog.setTitle("POKEMON DOES NOT EXIST");
+                    alertDialog.setMessage("Please try again. '" + str + "' cannot be found. You may want to check your spelling.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
                 }
             });
             requestQueue.add(jsonObjectRequest);

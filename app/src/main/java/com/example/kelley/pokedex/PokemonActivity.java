@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +51,9 @@ public class PokemonActivity extends AppCompatActivity {
 
         try {
             JSONObject infoJSON = new JSONObject(info);
+          
+            weight.setText(String.format("%.2f", infoJSON.getInt("weight") * 0.1) + " kg");
+            height.setText(String.format("%.2f", infoJSON.getInt("height") * 0.1) + " m");
 
             id.setText("#" + Integer.toString(infoJSON.getInt("id")));
 
@@ -64,22 +68,15 @@ public class PokemonActivity extends AppCompatActivity {
             int colorId = this.getResources().getIdentifier(type, "color", this.getPackageName());
             type1.setBackgroundColor(getResources().getColor(colorId));
             type1.setText(type.substring(0, 1).toUpperCase() + type.substring(1));
-            Log.d("abcdef", type);
 
             if (types.length() >= 2) {
                 type2.setVisibility(View.VISIBLE);
                 type = types.getJSONObject(1).getJSONObject("type").getString("name");
-                Log.d("abcdef", type);
                 colorId = this.getResources().getIdentifier(type, "color", this.getPackageName());
                 type2.setBackgroundColor(getResources().getColor(colorId));
                 type2.setText(type.substring(0, 1).toUpperCase() + type.substring(1));
             }
-
-            // TODO: get color string correspond with the colors in xml
-
-            weight.setText(Double.toString(infoJSON.getInt("weight") * 0.1) + " kg");
-            height.setText(Double.toString(infoJSON.getInt("height") * 0.1) + " m");
-
+          
             String spriteURL = infoJSON.getJSONObject("sprites").getString("front_default");
             sprite.setImageBitmap(new GetImagesTask().execute(new String[]{ spriteURL }).get());
             Log.d("no error", "there was no error");
