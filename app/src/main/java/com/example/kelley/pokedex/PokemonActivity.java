@@ -30,7 +30,7 @@ public class PokemonActivity extends AppCompatActivity {
         TextView type2 = findViewById(R.id.type_2);
         TextView height = findViewById(R.id.height);
         TextView weight = findViewById(R.id.weight);
-
+        TextView stats = findViewById(R.id.stats);
         ImageView sprite = findViewById(R.id.imageView);
 
         TextView baseStat1 = findViewById(R.id.base_stat_1);
@@ -91,10 +91,18 @@ public class PokemonActivity extends AppCompatActivity {
             baseStat4Num.setText(statsArray.getJSONObject(3).getString("base_stat"));
             baseStat5.setText(capitalize(statsArray.getJSONObject(4).getJSONObject("stat").getString("name")) + ": ");
             baseStat5Num.setText(statsArray.getJSONObject(4).getString("base_stat"));
-            baseStat6.setText(capitalize(statsArray.getJSONObject(6).getJSONObject("stat").getString("name")) + ": ");
-            baseStat6Num.setText(statsArray.getJSONObject(6).getString("base_stat"));
+            baseStat6.setText(capitalize(statsArray.getJSONObject(5).getJSONObject("stat").getString("name")) + ": ");
+            baseStat6Num.setText(statsArray.getJSONObject(5).getString("base_stat"));
 
             Log.d("no error", "there was no error");
+
+            int baseStat = 0;
+            for (int i = 0; i < statsArray.length(); i++) {
+                baseStat += statsArray.getJSONObject(i).getInt("base_stat");
+            }
+            Log.d("message" , baseStat + "");
+            stats.setText(baseStat + "");
+
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (Exception e) {
