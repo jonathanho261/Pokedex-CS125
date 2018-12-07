@@ -45,14 +45,30 @@ public class PokemonActivity extends AppCompatActivity {
         TextView type2 = findViewById(R.id.type_2);
         TextView height = findViewById(R.id.height);
         TextView weight = findViewById(R.id.weight);
+
         ImageView sprite = findViewById(R.id.imageView);
+
+        TextView baseStat1 = findViewById(R.id.base_stat_1);
+        TextView baseStat2 = findViewById(R.id.base_stat_2);
+        TextView baseStat3 = findViewById(R.id.base_stat_3);
+        TextView baseStat4 = findViewById(R.id.base_stat_4);
+        TextView baseStat5 = findViewById(R.id.base_stat_5);
+        TextView baseStat6 = findViewById(R.id.base_stat_6);
+
+        TextView baseStat1Num = findViewById(R.id.base_stat_1_num);
+        TextView baseStat2Num = findViewById(R.id.base_stat_2_num);
+        TextView baseStat3Num = findViewById(R.id.base_stat_3_num);
+        TextView baseStat4Num = findViewById(R.id.base_stat_4_num);
+        TextView baseStat5Num = findViewById(R.id.base_stat_5_num);
+        TextView baseStat6Num = findViewById(R.id.base_stat_6_num);
+
         Intent intent = getIntent();
         String info = intent.getStringExtra("info");
 
         try {
             JSONObject infoJSON = new JSONObject(info);
           
-            weight.setText(String.format("%.2f", infoJSON.getInt("weight") * 0.1) + " kg");
+            weight.setText(String.format("%.1f", infoJSON.getInt("weight") * 0.1) + " kg");
             height.setText(String.format("%.2f", infoJSON.getInt("height") * 0.1) + " m");
 
             id.setText("#" + Integer.toString(infoJSON.getInt("id")));
@@ -79,12 +95,31 @@ public class PokemonActivity extends AppCompatActivity {
           
             String spriteURL = infoJSON.getJSONObject("sprites").getString("front_default");
             sprite.setImageBitmap(new GetImagesTask().execute(new String[]{ spriteURL }).get());
+            JSONArray statsArray = infoJSON.getJSONArray("stats");
+            baseStat1.setText(capitalize(statsArray.getJSONObject(0).getJSONObject("stat").getString("name")) + ": ");
+            baseStat1Num.setText(statsArray.getJSONObject(0).getString("base_stat"));
+            baseStat2.setText(capitalize(statsArray.getJSONObject(1).getJSONObject("stat").getString("name")) + ": ");
+            baseStat2Num.setText(statsArray.getJSONObject(1).getString("base_stat"));
+            baseStat3.setText(capitalize(statsArray.getJSONObject(2).getJSONObject("stat").getString("name")) + ": ");
+            baseStat3Num.setText(statsArray.getJSONObject(2).getString("base_stat"));
+            baseStat4.setText(capitalize(statsArray.getJSONObject(3).getJSONObject("stat").getString("name")) + ": ");
+            baseStat4Num.setText(statsArray.getJSONObject(3).getString("base_stat"));
+            baseStat5.setText(capitalize(statsArray.getJSONObject(4).getJSONObject("stat").getString("name")) + ": ");
+            baseStat5Num.setText(statsArray.getJSONObject(4).getString("base_stat"));
+            baseStat6.setText(capitalize(statsArray.getJSONObject(6).getJSONObject("stat").getString("name")) + ": ");
+            baseStat6Num.setText(statsArray.getJSONObject(6).getString("base_stat"));
+
             Log.d("no error", "there was no error");
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**Used to capitalize first letter of a str. */
+    private String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
     public class GetImagesTask extends AsyncTask<String, Void, Bitmap> {
