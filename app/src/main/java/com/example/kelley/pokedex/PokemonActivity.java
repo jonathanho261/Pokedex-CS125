@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -42,8 +43,8 @@ public class PokemonActivity extends AppCompatActivity {
 
         try {
             JSONObject infoJSON = new JSONObject(info);
-            weight.setText(Double.toString(infoJSON.getInt("weight") * 0.1) + " kg");
-            height.setText(Double.toString(infoJSON.getInt("height") * 0.1) + " m");
+            weight.setText(String.format("%.2f", infoJSON.getInt("weight") * 0.1) + " kg");
+            height.setText(String.format("%.2f", infoJSON.getInt("height") * 0.1) + " m");
             String spriteURL = infoJSON.getJSONObject("sprites").getString("front_default");
             sprite.setImageBitmap(new GetImagesTask().execute(new String[]{ spriteURL }).get());
             Log.d("no error", "there was no error");
