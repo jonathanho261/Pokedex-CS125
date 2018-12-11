@@ -52,18 +52,29 @@ public class PokemonActivity extends AppCompatActivity {
 
         try {
             JSONObject infoJSON = new JSONObject(info);
-          
-            weight.setText(String.format("%.1f", infoJSON.getInt("weight") * 0.1) + " kg");
-            height.setText(String.format("%.2f", infoJSON.getInt("height") * 0.1) + " m");
+            if (infoJSON.getString("name").equals("Geoffrey Challen")) {
+                weight.setText(infoJSON.getString("weight"));
+                height.setText(infoJSON.getString("height"));
 
-            id.setText("#" + Integer.toString(infoJSON.getInt("id")));
+                id.setText(infoJSON.getString("id"));
 
+                sprite.setImageResource(R.drawable.geoff);
+            } else {
+                weight.setText(String.format("%.1f", infoJSON.getInt("weight") * 0.1) + " kg");
+                height.setText(String.format("%.2f", infoJSON.getInt("height") * 0.1) + " m");
+
+                id.setText("#" + Integer.toString(infoJSON.getInt("id")));
+
+                String spriteURL = infoJSON.getJSONObject("sprites").getString("front_default");
+                sprite.setImageBitmap(new GetImagesTask().execute(new String[]{spriteURL}).get());
+            }
             String nameString = infoJSON.getString("name");
             nameString = nameString.substring(0, 1).toUpperCase() + nameString.substring(1);
             name.setText(nameString);
             setTitle("Pokemon Info");
 
             JSONArray types = infoJSON.getJSONArray("types");
+            Log.d("the tester is real", infoJSON.getJSONArray("types").toString());
             String type = types.getJSONObject(0).getJSONObject("type").getString("name");
 
             int colorId = this.getResources().getIdentifier(type, "color", this.getPackageName());
@@ -77,9 +88,7 @@ public class PokemonActivity extends AppCompatActivity {
                 type2.setBackgroundColor(getResources().getColor(colorId));
                 type2.setText(type.substring(0, 1).toUpperCase() + type.substring(1));
             }
-          
-            String spriteURL = infoJSON.getJSONObject("sprites").getString("front_default");
-            sprite.setImageBitmap(new GetImagesTask().execute(new String[]{ spriteURL }).get());
+
             JSONArray statsArray = infoJSON.getJSONArray("stats");
             baseStat1.setText(capitalize(statsArray.getJSONObject(0).getJSONObject("stat").getString("name")) + ": ");
             baseStat1Num.setText(statsArray.getJSONObject(0).getString("base_stat"));

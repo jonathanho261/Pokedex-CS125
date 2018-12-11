@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import android.view.View;
 import android.widget.Button;
@@ -79,22 +80,81 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final JSONObject response) {
                             Intent search = new Intent(getBaseContext(), PokemonActivity.class);
+                            Log.d("this is okay", response.toString());
                             search.putExtra("info", response.toString());
                             startActivity(search);
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                    alertDialog.setTitle("POKEMON DOES NOT EXIST");
-                    alertDialog.setMessage("Please try again. '" + str + "' cannot be found. You may want to check your spelling.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
+                    if (str.equalsIgnoreCase("geoff") || str.equalsIgnoreCase("challen") || str.equalsIgnoreCase("geoffrey")) {
+                        try {
+                            JSONArray types = new JSONArray();
+                            JSONObject normal = new JSONObject();
+                            normal.put("type", new JSONObject()
+                                    .put("name", "normal"));
+                            JSONObject psychic = new JSONObject();
+                            psychic.put("type", new JSONObject()
+                                    .put("name", "psychic"));
+                            types.put(normal);
+                            types.put(psychic);
+                            JSONArray stats = new JSONArray();
+                            JSONObject speed = new JSONObject();
+                            speed.put("base_stat", 119)
+                                    .put("stat", new JSONObject()
+                                            .put("name", "speed"));
+                            JSONObject sd = new JSONObject();
+                            sd.put("base_stat", 119)
+                                    .put("stat", new JSONObject()
+                                            .put("name", "special-defense"));
+                            JSONObject sa = new JSONObject();
+                            sa.put("base_stat", 119)
+                                    .put("stat", new JSONObject()
+                                            .put("name", "special-attack"));
+                            JSONObject defense = new JSONObject();
+                            defense.put("base_stat", 119)
+                                    .put("stat", new JSONObject()
+                                            .put("name", "defense"));
+                            JSONObject attack = new JSONObject();
+                            attack.put("base_stat", 119)
+                                    .put("stat", new JSONObject()
+                                            .put("name", "attack"));
+                            JSONObject hp = new JSONObject();
+                            hp.put("base_stat", 119)
+                                    .put("stat", new JSONObject()
+                                            .put("name", "hp"));
+                            stats.put(speed);
+                            stats.put(sd);
+                            stats.put(sa);
+                            stats.put(defense);
+                            stats.put(attack);
+                            stats.put(hp);
+                            JSONObject challenInfo = new JSONObject()
+                                    .put("id", "125")
+                                    .put("name", "Geoffrey Challen")
+                                    .put("height", "Tall")
+                                    .put("weight", "???")
+                                    .put("types", types)
+                                    .put("stats", stats);
+                            Intent search = new Intent(getBaseContext(), PokemonActivity.class);
+                            Log.d("this is okay", challenInfo.toString());
+                            search.putExtra("info", challenInfo.toString());
+                            startActivity(search);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                        alertDialog.setTitle("POKEMON DOES NOT EXIST");
+                        alertDialog.setMessage("Please try again. '" + str + "' cannot be found. You may want to check your spelling.");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                    }
                 }
             });
             requestQueue.add(jsonObjectRequest);
